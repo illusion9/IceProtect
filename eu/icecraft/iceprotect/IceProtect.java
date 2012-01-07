@@ -94,7 +94,6 @@ public class IceProtect extends JavaPlugin {
 				cmd.no(player, args);
 				return true;
 			}
-
 			if(args[0].equalsIgnoreCase("price") || args[0].equalsIgnoreCase("cost")) {
 				cmd.regionPrice(player, args);
 				return true;
