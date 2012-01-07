@@ -1,0 +1,11 @@
+name: IceProtect
+main: eu.icecraft.iceprotect.IceProtect
+version: 1.4
+depend: [WorldEdit, WorldGuard, iConomy]
+commands:
+  protect:
+    description: General IceProtect command
+    usage: /<command> 
+  pr:
+    description: General IceProtect command
+    usage: /<command> 
