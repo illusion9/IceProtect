@@ -367,18 +367,18 @@ public class Commands {
 		sender.sendMessage(ChatColor.DARK_AQUA + "======== IceProtect ========");
 
 		if(args.length == 0 || args.length == 1) {
-			sender.sendMessage(ChatColor.YELLOW + "For help with the commands use /pr help commands");
-			sender.sendMessage(ChatColor.YELLOW + "For all the possible flags use /pr help flags");
+			sender.sendMessage(ChatColor.YELLOW + "For help with the commands, use /pr help commands");
+			sender.sendMessage(ChatColor.YELLOW + "For all the possible flags, use /pr help flags");
 		} else if(args[1].equals("commands") || args[1].equals("cmd")) {
 			sender.sendMessage(ChatColor.YELLOW + "Regions cost 0.2$ per block.");
 			sender.sendMessage(ChatColor.YELLOW + "Use a wooden axe to select a region.");
 			sender.sendMessage(ChatColor.YELLOW + "Members can build and interact in the area.");
-			sender.sendMessage(ChatColor.YELLOW + "To make a protected region use /pr def <name>");
-			sender.sendMessage(ChatColor.YELLOW + "To allow members use /pr allow <player> <name>");
-			sender.sendMessage(ChatColor.YELLOW + "To deny member use /pr deny <player> <name>");
-			sender.sendMessage(ChatColor.YELLOW + "To add flags use /pr flags <name> <flag> <value>");
-			sender.sendMessage(ChatColor.YELLOW + "To delete a region use /pr delete <name>");
-			sender.sendMessage(ChatColor.YELLOW + "To check how much a region will cost use /pr price");
+			sender.sendMessage(ChatColor.YELLOW + "To make a protected region, use /pr def <name>");
+			sender.sendMessage(ChatColor.YELLOW + "To allow members, use /pr allow <player> <name>");
+			sender.sendMessage(ChatColor.YELLOW + "To deny member, use /pr deny <player> <name>");
+			sender.sendMessage(ChatColor.YELLOW + "To add flags, use /pr flags <name> <flag> <value>");
+			sender.sendMessage(ChatColor.YELLOW + "To delete a region, use /pr delete <name>");
+			sender.sendMessage(ChatColor.YELLOW + "To check how much a region will cost, use /pr price");
 		} else if(args[1].equals("flags")) {
 			sender.sendMessage(ChatColor.YELLOW + "chest-access: Allow or block chest access.");
 			sender.sendMessage(ChatColor.YELLOW + "ice-form: Allow or block ice from forming.");
@@ -388,8 +388,8 @@ public class Commands {
 			sender.sendMessage(ChatColor.YELLOW + "use: Allow or block the ability to use doors, buttons,");
 			sender.sendMessage(ChatColor.YELLOW + "pressure plates, levers, note blocks, chests, etc..");
 		} else {
-			sender.sendMessage(ChatColor.YELLOW + "For help with the commands use /pr help commands.");
-			sender.sendMessage(ChatColor.YELLOW + "For all the possible flags use /pr help flags.");
+			sender.sendMessage(ChatColor.YELLOW + "For help with the commands, use /pr help commands.");
+			sender.sendMessage(ChatColor.YELLOW + "For all the possible flags, use /pr help flags.");
 		}
 
 		sender.sendMessage(ChatColor.DARK_AQUA + "==========================");
