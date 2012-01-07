@@ -76,7 +76,7 @@ public class IceProtect extends JavaPlugin {
 				return true;
 			}
 
-			if(args[0].equalsIgnoreCase("delete")) {
+			if((args[0].equalsIgnoreCase("delete")) || args[0].equalsIgnoreCase("del")) {
 				cmd.deleteRegion(player, args);
 				return true;
 			}
