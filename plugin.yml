@@ -1,6 +1,6 @@
 name: IceProtect
 main: eu.icecraft.iceprotect.IceProtect
-version: 1.3
+version: 1.4
 depend: [WorldEdit, WorldGuard, iConomy]
 commands:
   protect:

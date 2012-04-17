@@ -1,6 +1,7 @@
 package eu.icecraft.iceprotect;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -32,6 +33,7 @@ public class Commands {
 	private WorldGuardPlugin plugin;
 	private WorldEditPlugin worldEdit;
 	private Economy econ;
+	private HashMap<String, String> yesPlayers = new HashMap<String, String>();
 
 	public Commands(WorldGuardPlugin wg, WorldEditPlugin we, Economy econ) {
 		this.plugin = wg;
@@ -121,30 +123,21 @@ public class Commands {
 			player.sendMessage(ChatColor.RED + "Wrong usage. /pr help");
 			return;
 		}
-
 		String id = "icp_" + player.getName() + "_" + args[1];
 
-		World world = player.getWorld();
 		LocalPlayer localPlayer = plugin.wrapPlayer(player);
 
-		RegionManager mgr = plugin.getGlobalRegionManager().get(world);
+		RegionManager mgr = plugin.getGlobalRegionManager().get(player.getWorld());
 		ProtectedRegion region = mgr.getRegion(id);
 
 		if (region == null) {
 			player.sendMessage(ChatColor.RED + "Could not find a region by that ID.");
+			return;
 		}
 
 		if (region.isOwner(localPlayer)) {
-			mgr.removeRegion(id);
-
-			player.sendMessage(ChatColor.YELLOW + "Region " + args[1] + " removed.");
-
-			try {
-				mgr.save();
-			} catch (IOException e) {
-				player.sendMessage(ChatColor.RED + "(shouldn't happen) Failed to write regions file: " + e.getMessage());
-			}
-
+			yesPlayers.put(player.getName(), id);
+			player.sendMessage(ChatColor.YELLOW + "Are you sure you want to delete the region " + args[1] + "? Type /pr yes to continue, else /pr no to cancel. You will not get refunded.");
 		}
 	}
 
@@ -361,6 +354,47 @@ public class Commands {
 
 	public <V> void setFlag(ProtectedRegion region, Flag<V> flag, CommandSender sender, String value) throws InvalidFlagFormat {
 		region.setFlag(flag, flag.parseInput(plugin, sender, value));
+	}
+
+	public void yes(Player player, String[] args) {
+		if (yesPlayers.containsKey(player.getName()) && yesPlayers.get(player.getName()) != null) {
+			String id = yesPlayers.get(player.getName());
+
+			World world = player.getWorld();
+			LocalPlayer localPlayer = plugin.wrapPlayer(player);
+
+			RegionManager mgr = plugin.getGlobalRegionManager().get(world);
+			ProtectedRegion region = mgr.getRegion(id);
+			
+			if (region == null) {
+				player.sendMessage(ChatColor.RED + "Could not find a region by that ID.");
+				return;
+			}
+
+			if (region.isOwner(localPlayer)) {
+				mgr.removeRegion(id);
+				yesPlayers.remove(player.getName());
+				player.sendMessage(ChatColor.YELLOW + "Region " + id.split("_")[id.split("_").length-1] + " removed.");
+
+				try {
+					mgr.save();
+				} catch (IOException e) {
+					player.sendMessage(ChatColor.RED + "(shouldn't happen) Failed to write regions file: " + e.getMessage());
+				}
+
+			}
+		} else {
+			player.sendMessage(ChatColor.RED + "You have no regions waiting for confirmation.");
+		}
+	}
+	
+	public void no(Player player, String[] args) {
+		if (yesPlayers.containsKey(player.getName())) {
+		yesPlayers.remove(player.getName());
+		player.sendMessage(ChatColor.RED + "Removal cancelled.");
+		} else {
+			player.sendMessage(ChatColor.RED + "You have no regions waiting for confirmation.");
+		}
 	}
 
 	public void help(Player sender, String[] args) {

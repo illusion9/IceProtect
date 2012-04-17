@@ -76,16 +76,24 @@ public class IceProtect extends JavaPlugin {
 				return true;
 			}
 
-			if(args[0].equalsIgnoreCase("delete")) {
+			if(args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del")) {
 				cmd.deleteRegion(player, args);
 				return true;
 			}
 
-			if(args[0].equalsIgnoreCase("list")) {
+			if(args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
 				cmd.listRegions(player, args);
 				return true;
 			}
-
+			// fun
+			if(args[0].equalsIgnoreCase("yes") || args[0].equalsIgnoreCase("yeah") || args[0].equalsIgnoreCase("yup") || args[0].equalsIgnoreCase("ya") || args[0].equalsIgnoreCase("yea")) {
+				cmd.yes(player, args);
+				return true;
+			}
+			if(args[0].equalsIgnoreCase("no") || args[0].equalsIgnoreCase("nah") || args[0].equalsIgnoreCase("nope") || args[0].equalsIgnoreCase("nu")) {
+				cmd.no(player, args);
+				return true;
+			}
 			if(args[0].equalsIgnoreCase("price") || args[0].equalsIgnoreCase("cost")) {
 				cmd.regionPrice(player, args);
 				return true;
