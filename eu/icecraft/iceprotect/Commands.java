@@ -216,7 +216,7 @@ public class Commands {
 		Set<String> keySet = mgr.getRegions().keySet();
 
 		for(String regionName : keySet) {
-			if(regionName.startsWith("icp_" + player.getName() + "_")) {
+			if(regionName.startsWith("icp_" + player.getName().toLowerCase() + "_")) {
 				regions.append(regionName.replaceFirst("icp_" + player.getName().toLowerCase() + "_", "") + ", ");
 			}
 		}
