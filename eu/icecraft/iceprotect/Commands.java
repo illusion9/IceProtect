@@ -217,7 +217,7 @@ public class Commands {
 
 		for(String regionName : keySet) {
 			if(regionName.startsWith("icp_" + player.getName() + "_")) {
-				regions.append(regionName.replaceFirst("icp_" + player.getName() + "_", "") + ", ");
+				regions.append(regionName.replaceFirst("icp_" + player.getName().toLowerCase() + "_", "") + ", ");
 			}
 		}
 
