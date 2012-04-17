@@ -6,7 +6,7 @@ import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
 
 public class Economy {
-	public static double costPerBlock = 0.2; 
+	public static double costPerBlock = 0.1; 
 
 	public double getCost(int volume) {
 		return volume * costPerBlock;
