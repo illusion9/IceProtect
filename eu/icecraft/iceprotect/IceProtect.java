@@ -1,5 +1,7 @@
 package eu.icecraft.iceprotect;
 
+import java.io.File;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,15 +11,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import eu.icecraft.iceprotect.configCompat.Configuration;
+
 public class IceProtect extends JavaPlugin {
 
-	WorldEditPlugin we;
-	WorldGuardPlugin wg;
-	Economy econ;
-	Commands cmd;
+	private WorldEditPlugin we;
+	private WorldGuardPlugin wg;
+	private Economy econ;
+	private Commands cmd;
+	private Configuration regionsForSale;
 
 	@Override
 	public void onDisable() {
+		regionsForSale.save();
 		System.out.println("[IceProtect] Disabled.");
 	}
 
@@ -41,8 +47,15 @@ public class IceProtect extends JavaPlugin {
 			System.out.println("[IceProtect] Hooked into iConomy.");
 		}
 
-		econ = new Economy();
-		cmd = new Commands(wg, we, econ);
+		if(!this.getDataFolder().exists()) this.getDataFolder().mkdir();
+
+		File sellFile = new File(this.getDataFolder(), "sell.yml");
+		regionsForSale = new Configuration(sellFile);
+		if(!sellFile.exists()) regionsForSale.save();
+		regionsForSale.load();
+
+		econ = new Economy(regionsForSale);
+		cmd = new Commands(wg, we, econ, regionsForSale);
 
 		System.out.println("[IceProtect] Enabled.");
 	}
@@ -53,7 +66,13 @@ public class IceProtect extends JavaPlugin {
 			sender.sendMessage("You need to be a player!");
 			return true;
 		}
+
 		Player player = (Player) sender;
+
+		if(label.equalsIgnoreCase("psell")) {
+			cmd.sellRegion(player, args);
+			return true;
+		}
 
 		if(label.equalsIgnoreCase("protect") || label.equalsIgnoreCase("pr")) {
 			if(args.length == 0 || args[0].equalsIgnoreCase("help")) {
@@ -91,8 +110,18 @@ public class IceProtect extends JavaPlugin {
 				return true;
 			}
 
-			if(args[0].equalsIgnoreCase("f") || args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("flags")) { 
+			if(args[0].equalsIgnoreCase("f") || args[0].equalsIgnoreCase("flag") || args[0].equalsIgnoreCase("flags")) {
 				cmd.setFlags(player, args);
+				return true;
+			}
+
+			if(args[0].equalsIgnoreCase("buy")) {
+				cmd.buyRegion(player, args);
+				return true;
+			}
+
+			if(args[0].equalsIgnoreCase("forsale")) {
+				cmd.checkRegion(player, args);
 				return true;
 			}
 		}
