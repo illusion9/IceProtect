@@ -334,13 +334,13 @@ public class Commands {
 		Set<String> keySet = mgr.getRegions().keySet();
 
 		for(String regionName : keySet) {
-			if(regionName.startsWith("icp_" + player.getName() + "_")) {
-				regions.append(regionName.replaceFirst("icp_" + player.getName() + "_", "") + ", ");
+			if(regionName.startsWith("icp_" + player.getName().toLowerCase() + "_")) {
+				regions.append(regionName.replaceFirst("icp_" + player.getName().toLowerCase() + "_", "") + ", ");
 			}
 		}
 
 		if(regions.length() == 0) {
-			player.sendMessage(ChatColor.RED + "You don't have regions.");
+			player.sendMessage(ChatColor.RED + "You don't have regions in this world.");
 		} else {
 			player.sendMessage(ChatColor.AQUA + "Your regions:");
 			regions.deleteCharAt(regions.length()-2); 
