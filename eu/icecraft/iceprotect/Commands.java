@@ -58,6 +58,18 @@ public class Commands {
 			return;
 		}
 
+		if (!ProtectedRegion.isValidId(args[0])) {
+			sender.sendMessage(ChatColor.RED + "Invalid region name specified!");
+			return;
+		}
+
+		RegionManager mgr = plugin.getGlobalRegionManager().get(sender.getLocation().getWorld());
+
+		if (!mgr.hasRegion(args[0])) {
+			sender.sendMessage(ChatColor.RED + "Nonexistent region name specified!");
+			return;
+		}
+
 		regionsForSale.setProperty("regions." + args[0] + ".price", Double.parseDouble(args[1]));
 		regionsForSale.setProperty("regions." + args[0] + ".seller", sender.getName());
 		regionsForSale.save();
@@ -81,7 +93,7 @@ public class Commands {
 
 		Location loc = sender.getLocation();
 
-		BlockVector min = new BlockVector(loc.getX()-1, loc.getY()-2, loc.getZ()-1);
+		BlockVector min = new BlockVector(loc.getX()-1, loc.getY()-1, loc.getZ()-1);
 		BlockVector max = new BlockVector(loc.getX()+1, loc.getY()+1, loc.getZ()+1);
 		ProtectedRegion region = new ProtectedCuboidRegion(id, min, max);
 
@@ -120,7 +132,7 @@ public class Commands {
 
 		Location loc = sender.getLocation();
 
-		BlockVector min = new BlockVector(loc.getX()-1, loc.getY()-2, loc.getZ()-1);
+		BlockVector min = new BlockVector(loc.getX()-1, loc.getY()-1, loc.getZ()-1);
 		BlockVector max = new BlockVector(loc.getX()+1, loc.getY()+1, loc.getZ()+1);
 		ProtectedRegion region = new ProtectedCuboidRegion(id, min, max);
 
@@ -178,6 +190,14 @@ public class Commands {
 
 		if (mgr.hasRegion(id)) {
 			sender.sendMessage(ChatColor.RED + "That region name is already taken. Please choose a new name.");
+			return;
+		}
+
+		int regionCount = mgr.getRegionCountOfPlayer(wgPlayer);
+
+		if(regionCount > Economy.maxDonatorAllowedRegions && !sender.isOp() && sender.hasPermission("iceprotect.freeprotect")) {
+			sender.sendMessage(ChatColor.RED + "You have reached the maximum allowed regions per user ("+Economy.maxDonatorAllowedRegions+").");
+			sender.sendMessage(ChatColor.RED + "Please contact an admin.");
 			return;
 		}
 

@@ -19,6 +19,7 @@ import eu.icecraft.iceprotect.configCompat.Configuration;
 public class Economy {
 	public static double costPerBlock = 0.1;
 	public static int maxDonatorAllowedCost = 100000;
+	public static int maxDonatorAllowedRegions = 60;
 
 	private Configuration regionsForSale; 
 
@@ -100,7 +101,7 @@ public class Economy {
 
 		} else {
 			sender.sendMessage(ChatColor.YELLOW + "You don't have sufficient money to perform this action!");
-			sender.sendMessage(ChatColor.RED + Double.toString(cost) + "$ needed.");
+			sender.sendMessage(ChatColor.RED + "You need $" + Double.toString(cost) + ".");
 			return;
 		}
 	}
